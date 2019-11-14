@@ -1,21 +1,18 @@
 import React from "react";
 import Input from "./Input";
 
-const MyForm = ({ data }) => {
-  console.log("data", data);
-  const [state, setState] = React.useState(data);
-  const [ui, setUi] = React.useState(data);
+const MyForm = ({ data, onSubmit }) => {
+  const [getData, setGetData] = React.useState(data);
 
   const handleChange = event => {
-    setState({
-      ...state,
+    setGetData({
+      ...getData,
       [event.target.name]: event.target.value
     });
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-
     const fieldsData = Array.prototype.slice
       .call(event.target)
       .filter(el => el.name)
@@ -26,16 +23,16 @@ const MyForm = ({ data }) => {
         }),
         {}
       );
-    setUi({ ...fieldsData });
-    console.log(state);
+    onSubmit({ ...fieldsData });
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <Input
         type="text"
         id="username"
         label="이름"
-        value={state.username}
+        value={getData.username}
         onChange={handleChange}
       />
       <br />
@@ -43,7 +40,7 @@ const MyForm = ({ data }) => {
         type="email"
         id="email"
         label="이메일"
-        value={state.email}
+        value={getData.email}
         onChange={handleChange}
       />
       <br />
@@ -51,13 +48,17 @@ const MyForm = ({ data }) => {
         type="text"
         id="birthdate"
         label="생일"
-        value={state.birthdate}
+        value={getData.birthdate}
         onChange={handleChange}
       />
       <br />
       <br />
       <div>
-        {ui.username}, {ui.email}, {ui.birthdate}
+        {getData.username}, {getData.email}, {getData.birthdate}
+      </div>
+      <br />
+      <div>
+        {data.username}, {data.email}, {data.birthdate}
       </div>
       <br />
       <button type="submit">저장</button>

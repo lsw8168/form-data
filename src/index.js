@@ -10,7 +10,13 @@ const initialState = {
   birthdate: "315"
 };
 
-const App = () => <MyForm data={initialState} />;
+const App = () => {
+  const [formData, setFormData] = React.useState(initialState);
+  const onSubmit = data => {
+    setFormData(data);
+  };
+  return <MyForm data={formData} onSubmit={onSubmit} />;
+};
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
